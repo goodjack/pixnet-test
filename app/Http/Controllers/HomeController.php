@@ -23,13 +23,17 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if (is_null($request->cookie('numSet')) || $request->input('reset')) {
-            $numSet = $this->numService->genNumSet(4);
-        } else {
-            $numSet = $request->cookie('numSet');
-        }
+        if (is_null($request->cookie('numSet')) || $request->input('reset') == 1) {
+            $numSetStr = $this->numService->genNumSet(4);
 
-        return response()->view('index', compact('numSet'))->cookie('numSet', $numSet);
+            return response()
+                ->view('index', compact('numSetStr'))
+                ->cookie('numSetStr', $numSetStr);
+        } else {
+            $numSetStr = $request->cookie('numSetStr');
+
+            return response()->view('index', compact('numSetStr'));
+        }
     }
 
     /**
@@ -38,10 +42,11 @@ class HomeController extends Controller
      */
     public function guess(Request $request)
     {
-        $numSet = $request->cookie('numSet');
+        $numSetStr = $request->cookie('numSetStr');
+        $inputNumStr = $request->inputNumStr;
 
-        $inputNum = $request->inputNum;
+        $guessResult = $this->numService->checkAB($numSetStr, $inputNumStr);
 
-        return view('index', compact('numSet', 'inputNum'));
+        return view('index', compact('numSetStr', 'inputNumStr', 'guessResult'));
     }
 }

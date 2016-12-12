@@ -4,14 +4,14 @@ namespace App\Services;
 
 class NumService
 {
+
     /**
      * @param $count
-     * @return array
+     * @return string
      */
     public function genNumSet($count)
     {
         $numSet = array();
-        $numSetString = "";
 
         for ($i = 0; $i < $count; $i++) {
             $randNum = rand(0, 9);
@@ -20,11 +20,10 @@ class NumService
                 $i--;
             } else {
                 $numSet[] = $randNum;
-                $numSetString .= $randNum;
             }
         }
 
-        return $numSetString;
+        return implode($numSet);
     }
 
     /**
@@ -40,5 +39,19 @@ class NumService
             }
         }
         return true;
+    }
+
+
+    /**
+     * @param $numSetStr
+     * @param $inputNumStr
+     * @return string
+     */
+    public function checkAB($numSetStr, $inputNumStr)
+    {
+        $numSet = str_split($numSetStr);
+        $inputNum = str_split($inputNumStr);
+
+        return "1A2B";
     }
 }

@@ -7,10 +7,10 @@
     <br>
     <div class="row">
       <div class="col-lg-6">
-        <h1>
+        <h1 class="text-primary">
           猜數字
           <small class="text-muted">
-            答案提示：{{ $numSet }}
+            答案提示：{{ $numSetStr }}
           </small>
         </h1>
       </div>
@@ -24,7 +24,7 @@
         <form action="/" method="POST">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="input-group input-group-lg">
-            <input type="text" name="inputNum" class="form-control" placeholder="請輸入不重複的數字" autofocus>
+            <input type="text" name="inputNumStr" class="form-control" placeholder="請輸入不重複的數字" autofocus>
             <span class="input-group-btn">
               <button class="btn btn-secondary" type="submit" data-toggle="tooltip" data-placement="right" title="或按 Enter">GO</button>
             </span>
@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="alert alert-danger" role="alert">
-          你輸入的答案是 {{ $inputNum }}: 0A0B
+          你輸入的答案是 {{ $inputNum }}: {{ $guessResult }}
         </div>
       </div>
     </div>
