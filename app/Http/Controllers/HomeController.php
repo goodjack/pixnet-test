@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
+use App\Services\NumService;
 
 class HomeController extends Controller
 {
+    private $numService;
+
+    public function __construct(NumService $numService)
+    {
+        $this->numService = $numService;
+    }
+
     public function index()
     {
-        return view('index');
+        $numSet = $this->numService->genNumSet(4);
+
+        return view('index', compact('numSet'));
     }
 }

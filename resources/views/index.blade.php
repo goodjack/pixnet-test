@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'PIXNET')
+
 @section('content')
   <div class="container">
     <br>
@@ -7,7 +9,14 @@
       <div class="col-lg-6">
         <h1>
           猜數字
-          <small class="text-muted">答案提示：1234</small>
+          <small class="text-muted">
+            答案提示：1234
+            @foreach ($numSet as $num)
+            <div>
+              {{ $num }}
+            </div>
+            @endforeach
+          </small>
         </h1>
       </div>
       <div class="col-lg-2">
