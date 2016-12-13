@@ -41,6 +41,21 @@ class NumService
         return true;
     }
 
+    public function checkSame($inputNumStr)
+    {
+        $inputNum = str_split($inputNumStr);
+
+        if (count($inputNum) === count(array_unique($inputNum))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function checkPastInput($inputNumStr, $guessHistory)
+    {
+        return preg_match('/' . $inputNumStr . '/', $guessHistory);
+    }
 
     /**
      * @param $numSetStr
@@ -52,6 +67,44 @@ class NumService
         $numSet = str_split($numSetStr);
         $inputNum = str_split($inputNumStr);
 
-        return "1A2B";
+        $ansA = $this->checkA($numSet, $inputNum);
+        $ansB = $this->checkB($numSet, $inputNum, $ansA);
+
+        return $ansA . 'A' . $ansB . 'B';
     }
+
+    private function checkA($numSet, $inputNum)
+    {
+        $counterA = 0;
+        foreach ($numSet as $key => $value) {
+            if ($inputNum[$key] === $value) {
+                $counterA++;
+            }
+        }
+        return $counterA;
+    }
+
+    private function checkB($numSet, $inputNum, $ansA)
+    {
+        $counterB = 0;
+        foreach ($numSet as $value) {
+            if (in_array($value, $inputNum)) {
+                $counterB++;
+            }
+        }
+        return $counterB - $ansA;
+    }
+
+    /*public function addGuessHistory($inputNumStr, $guessResult, $guessHistory)
+    {
+        print_r('3.'.$guessHistory.'  ');
+        if ($guessResult !== '4A0B') {
+            return $guessHistory . $inputNumStr . ': ' . $guessResult . '<br>';
+        } else {
+            return $guessHistory . $inputNumStr . ': ' . '正解\n';
+        }
+        //return $guessHistory;
+    }*/
+
+
 }

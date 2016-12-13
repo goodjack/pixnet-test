@@ -19,28 +19,41 @@
       </div>
     </div>
     <br>
-    <div class="row">
-      <div class="col-lg-6">
-        <form action="/" method="POST">
-          <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <div class="input-group input-group-lg">
-            <input type="text" name="inputNumStr" class="form-control" placeholder="請輸入不重複的數字" autofocus>
-            <span class="input-group-btn">
-              <button class="btn btn-secondary" type="submit" data-toggle="tooltip" data-placement="right" title="或按 Enter">GO</button>
-            </span>
+    @if (!isset($guessResult) || $guessResult !== "4A0B")
+        <div class="row">
+          <div class="col-lg-6">
+            <form action="/" method="POST">
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <div class="input-group input-group-lg">
+                <input type="number" name="inputNumStr" class="form-control" placeholder="請輸入不重複的數字" autofocus>
+                <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="submit" data-toggle="tooltip" data-placement="right" title="或按 Enter">GO</button>
+                </span>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </div>
-    <br>
-    @if(isset($inputNum))
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="alert alert-danger" role="alert">
-          你輸入的答案是 {{ $inputNum }}: {{ $guessResult }}
         </div>
-      </div>
-    </div>
+    @endif
+    <br>
+    @if (isset($inputNumStr))
+        <div class="row">
+          <div class="col-lg-6">
+            @if (isset($checkSame))
+                <div class="alert alert-danger" role="alert">
+                  請輸入 4 個不重複的數字
+            @elseif (isset($checkPastInput))
+                <div class="alert alert-danger" role="alert">
+                  此答案已經輸入過了
+            @elseif ($guessResult === "4A0B")
+                <div class="alert alert-success" role="alert">
+                  你輸入的答案是 正解
+            @else
+                <div class="alert alert-danger" role="alert">
+                  你輸入的答案是 {{ $inputNumStr }}: {{ $guessResult }}
+            @endif
+            </div>
+          </div>
+        </div>
     @endif
     <br>
     <div class="row">
@@ -48,17 +61,15 @@
         <div class="card card-block">
           <h4 class="card-title">作答記錄</h4>
           <p class="card-text">
-            5678: 0A0B<br>
-            3214: 1A3B<br>
-            2134: 2A2B<br>
-            1234: 正解
+            @if (isset($guessHistory))
+                {!! nl2br(e($guessHistory)) !!}
+            @endif
           </p>
         </div>
       </div>
       <div class="col-lg-2">
-        <button type="button" class="btn btn-primary btn-block">下載作答記錄</button>
+        <a href="/download" class="btn btn-primary btn-block">下載作答記錄</a>
       </div>
     </div>
-
   </div>
 @stop
