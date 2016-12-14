@@ -4,7 +4,6 @@ namespace App\Services;
 
 class NumService
 {
-
     /**
      * @param $count
      * @return string
@@ -16,7 +15,7 @@ class NumService
         for ($i = 0; $i < $count; $i++) {
             $randNum = rand(0, 9);
 
-            if (!$this->checkNum($numSet, $randNum)) {
+            if (!$this->checkNumErr($numSet, $randNum)) {
                 $i--;
             } else {
                 $numSet[] = $randNum;
@@ -26,12 +25,13 @@ class NumService
         return implode($numSet);
     }
 
+
     /**
      * @param $numSet
      * @param $randNum
      * @return bool
      */
-    private function checkNum($numSet, $randNum)
+    private function checkNumErr($numSet, $randNum)
     {
         foreach ($numSet as $item) {
             if ($item == $randNum) {
@@ -41,7 +41,27 @@ class NumService
         return true;
     }
 
-    public function checkSame($inputNumStr)
+
+    /**
+     * @param $inputNumStr
+     * @param $count
+     * @return bool
+     */
+    public function checkInputCountErr($inputNumStr, $count)
+    {
+        if (strlen($inputNumStr) != $count) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * @param $inputNumStr
+     * @return bool
+     */
+    public function checkSameErr($inputNumStr)
     {
         $inputNum = str_split($inputNumStr);
 
@@ -52,10 +72,17 @@ class NumService
         }
     }
 
-    public function checkPastInput($inputNumStr, $guessHistory)
+
+    /**
+     * @param $inputNumStr
+     * @param $guessHistory
+     * @return int
+     */
+    public function checkPastInputErr($inputNumStr, $guessHistory)
     {
         return preg_match('/' . $inputNumStr . '/', $guessHistory);
     }
+
 
     /**
      * @param $numSetStr
@@ -73,38 +100,50 @@ class NumService
         return $ansA . 'A' . $ansB . 'B';
     }
 
+
+    /**
+     * @param $numSet
+     * @param $inputNum
+     * @return int
+     */
     private function checkA($numSet, $inputNum)
     {
         $counterA = 0;
-        foreach ($numSet as $key => $value) {
-            if ($inputNum[$key] === $value) {
+        foreach ($inputNum as $key => $value) {
+            if ($numSet[$key] === $value) {
                 $counterA++;
             }
         }
         return $counterA;
     }
 
+
+    /**
+     * @param $numSet
+     * @param $inputNum
+     * @param $ansA
+     * @return int
+     */
     private function checkB($numSet, $inputNum, $ansA)
     {
         $counterB = 0;
-        foreach ($numSet as $value) {
-            if (in_array($value, $inputNum)) {
+        foreach ($inputNum as $value) {
+            if (in_array($value, $numSet)) {
                 $counterB++;
             }
         }
         return $counterB - $ansA;
     }
 
-    /*public function addGuessHistory($inputNumStr, $guessResult, $guessHistory)
-    {
-        print_r('3.'.$guessHistory.'  ');
-        if ($guessResult !== '4A0B') {
-            return $guessHistory . $inputNumStr . ': ' . $guessResult . '<br>';
-        } else {
-            return $guessHistory . $inputNumStr . ': ' . '正解\n';
-        }
-        //return $guessHistory;
-    }*/
 
-
+//    public function addGuessHistory($inputNumStr, $guessResult, $guessHistory)
+//    {
+//        print_r('3.'.$guessHistory.'  ');
+//        if ($guessResult !== '4A0B') {
+//            return $guessHistory . $inputNumStr . ': ' . $guessResult . '<br>';
+//        } else {
+//            return $guessHistory . $inputNumStr . ': ' . '正解\n';
+//        }
+//        //return $guessHistory;
+//    }
 }

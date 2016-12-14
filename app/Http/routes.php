@@ -18,5 +18,6 @@ Route::get('/', function () {
 */
 
 Route::get('/', 'HomeController@index');
-Route::post('/', 'HomeController@guess');
 Route::get('/download', 'HomeController@downloadHistory');
+
+Route::post('/', 'HomeController@guess');
